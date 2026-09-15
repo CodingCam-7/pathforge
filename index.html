@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PATHFORGE · Dungeon & Pathfinding Lab</title>
+  <meta name="description" content="Watch procedural dungeons get built, then race BFS, Dijkstra, A* and Greedy Best-First across them. Vanilla JS, zero dependencies." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%2305070d'/><path d='M7 24V8h8v8h10v8' fill='none' stroke='%23ff3d81' stroke-width='3' stroke-linejoin='round'/><circle cx='7' cy='8' r='3' fill='%233dffa8'/></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M7 24V8h8v8h10v8" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" />
+        <circle cx="7" cy="8" r="3" fill="var(--green)" />
+        <rect x="22" y="21" width="6" height="6" transform="rotate(45 25 24)" fill="var(--pink)" />
+      </svg>
+      <div>
+        <h1>PATHFORGE</h1>
+        <p>Procedural dungeon generation × pathfinding lab</p>
+      </div>
+    </div>
+    <ul class="chips" aria-label="Project facts">
+      <li>Vanilla JS</li>
+      <li>0 dependencies</li>
+      <li>Seeded &amp; deterministic</li>
+      <li>Unit tested</li>
+    </ul>
+  </header>
+
+  <main class="layout">
+    <aside class="panel controls">
+      <section>
+        <h2><span>01</span> Generate</h2>
+        <div id="generators" class="seg seg-2"></div>
+        <form id="seed-form" class="seed-row">
+          <label class="sr-only" for="seed">Seed</label>
+          <input id="seed" type="text" spellcheck="false" autocomplete="off" placeholder="seed" />
+          <button id="dice" type="button" class="btn icon-btn" title="Random seed (N)" aria-label="Random seed">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8.5" cy="8.5" r="1.6"/><circle cx="15.5" cy="15.5" r="1.6"/><circle cx="12" cy="12" r="1.6"/></svg>
+          </button>
+          <button type="submit" class="btn">Build</button>
+        </form>
+      </section>
+
+      <section>
+        <h2><span>02</span> Search</h2>
+        <div id="algorithms" class="seg seg-4"></div>
+        <article class="algo-card">
+          <h3 id="algo-name"></h3>
+          <p id="algo-blurb"></p>
+          <dl>
+            <div><dt>Guarantee</dt><dd id="algo-guarantee"></dd></div>
+            <div><dt>Frontier</dt><dd id="algo-structure"></dd></div>
+          </dl>
+        </article>
+        <button id="run" type="button" class="btn btn-primary">Replay search <kbd>Space</kbd></button>
+        <label class="speed">
+          <span>Speed</span>
+          <input id="speed" type="range" min="0" max="1" step="0.01" />
+        </label>
+      </section>
+
+      <section>
+        <h2><span>03</span> Edit</h2>
+        <div id="tools" class="seg seg-tools"></div>
+        <p class="hint">Paint on the map, or drag the <b class="g">start</b> and <b class="p">goal</b> anytime. All four searches re-plan live.</p>
+      </section>
+
+      <section class="legend">
+        <h2>Legend</h2>
+        <ul>
+          <li><i class="sw floor"></i>Floor · cost 1</li>
+          <li><i class="sw rubble"></i>Rubble · cost 5</li>
+          <li><i class="sw frontier"></i>Frontier</li>
+          <li><i class="sw path"></i>Path</li>
+          <li class="wide"><i id="heat-legend" class="sw heat"></i>Explored · early → late</li>
+        </ul>
+      </section>
+    </aside>
+
+    <div class="stage-col">
+      <div class="panel stage">
+        <div id="hud" class="hud" aria-live="polite"></div>
+        <div id="board-wrap" class="board-wrap">
+          <canvas id="board" aria-label="Dungeon map and search visualization"></canvas>
+        </div>
+      </div>
+
+      <div class="panel stats">
+        <div class="stats-head">
+          <h2>Benchmark <small>same map, same endpoints</small></h2>
+          <button id="copy-link" type="button" class="btn btn-ghost">Copy share link</button>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Algorithm</th>
+                <th scope="col" class="num">Cells expanded</th>
+                <th scope="col" class="num">Path cost</th>
+                <th scope="col" class="num">Steps</th>
+                <th scope="col" class="num">Time (ms)</th>
+              </tr>
+            </thead>
+            <tbody id="stats-body"></tbody>
+          </table>
+        </div>
+        <p class="footnote">Click a row to replay that algorithm. <kbd>←</kbd><kbd>→</kbd> switch algorithms · <kbd>N</kbd> new map · <kbd>1</kbd>–<kbd>5</kbd> tools</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="foot">
+    Built from scratch with Canvas 2D and ES modules. BSP partitioning · cellular automata · binary heap priority queue.
+  </footer>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

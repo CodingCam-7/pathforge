@@ -1,0 +1,12 @@
+{
+  "name": "pathforge",
+  "version": "1.0.0",
+  "description": "Procedural dungeon generation and pathfinding visualizer. Vanilla JS, zero dependencies.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "python3 -m http.server 8090",
+    "test": "node --test"
+  },
+  "license": "MIT"
+}
