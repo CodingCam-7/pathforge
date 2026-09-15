@@ -1,5 +1,7 @@
 # PATHFORGE
 
+**▶ [Live demo](https://codingcam-7.github.io/pathforge/)**
+
 **Procedural dungeon generation × pathfinding lab.** Watch a map get built step by step, then race four search algorithms across it and compare them in a live benchmark table. Paint walls, scatter rubble or drag the endpoints, and every search re-plans instantly.
 
 Built from scratch in vanilla JavaScript with Canvas 2D. No framework, no build step, no dependencies.
